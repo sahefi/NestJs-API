@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, NotFoundException } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { StaffModule } from './staff/staff.module';
@@ -13,6 +13,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CustomerModule } from './customer/customer.module';
+import { APP_FILTER } from '@nestjs/core';
 
 
 @Module({
@@ -37,7 +38,6 @@ import { CustomerModule } from './customer/customer.module';
     
     StaffModule, RoleModule, GcoModule, CommentModule, ProductModule, CompanyModule, FinanceModule, TransactionModule, UserModule, CustomerModule],
   controllers: [AppController],
-  providers: [AppService],
-  
+  providers: [AppService,{provide:APP_FILTER,useClass:NotFoundException}]
 })
 export class AppModule {}

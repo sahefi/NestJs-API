@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpStatus } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { GetRoleDto } from './dto/get-role.dto';
+import { DetailRoleDto } from './dto/detail-role.dto';
+import { DeleteRoleDto } from './dto/delete-role.dto';
 
 @Controller('role')
 export class RoleController {
@@ -18,18 +20,32 @@ export class RoleController {
     return await this.roleService.findAll(getRoleDto);
   }
 
-  @Get(':id')
-  findOne(@Query('id') id: string) {
-    return this.roleService.findOne(+id);
+  @Get('/id')
+  findOne(@Query() detailRoledto: DetailRoleDto) {
+    return this.roleService.findOne(detailRoledto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
-    return this.roleService.update(+id, updateRoleDto);
+  @Patch()
+  update(@Body() updateRoleDto: UpdateRoleDto) {
+    try {
+      return this.roleService.update(updateRoleDto);
+    } catch (error) {
+      const status = error.status || HttpStatus.INTERNAL_SERVER_ERROR;
+      if(status === error.status){
+        return {
+          status: false,
+          message: error.message,
+          data: null,
+        };
+      }
+    }
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.roleService.remove(+id);
+  @Delete()
+  remove(@Query() deleteRoleDto : DeleteRoleDto) {
+    console.log(Param);
+    
+      return this.roleService.remove(deleteRoleDto);
+
   }
 }

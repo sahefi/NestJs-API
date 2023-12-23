@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +7,8 @@ import { Repository } from 'typeorm';
 import { RoleEntity } from './entities/role.entity';
 import { ConfigService } from '@nestjs/config';
 import { GetRoleDto } from './dto/get-role.dto';
+import { DetailRoleDto } from './dto/detail-role.dto';
+import { DeleteRoleDto } from './dto/delete-role.dto';
 
 @Injectable()
 export class RoleService {
@@ -74,15 +76,74 @@ async findAll(getRoleDto: GetRoleDto) {
   
 }
 
-findOne(id: number) {
-  return `This action returns a #${id} role`;
+async findOne(detailRoleDto : DetailRoleDto) {
+  const query = await this.repoRole.findOne({
+    where:{
+      id:detailRoleDto.id
+    }
+  })
+  
+  if(!query){
+    throw new NotFoundException(`ID ${detailRoleDto.id} Not Found `)
+  }
+  return{
+    status:true,
+    message:"Success",
+    data:query
+  }
 }
 
-update(id: number, updateRoleDto: UpdateRoleDto) {
-  return `This action updates a #${id} role`;
+async update(updateRoleDto: UpdateRoleDto) {
+  
+  const find = await this.repoRole.findOne({
+    where:{
+      id:updateRoleDto.id
+    }
+  })
+  if(!find){
+    throw new NotFoundException(`ID ${updateRoleDto.id} Not Found`)
+  }
+  
+
+  await this.repoRole.update(
+    {id:updateRoleDto.id},
+    {name:updateRoleDto.name}
+    )
+    
+    const result = await this.repoRole.findOne({
+    where:{
+      id:updateRoleDto.id
+    }
+  })
+
+
+  
+  // await result.save
+
+  const res = {
+    id:result.id,
+    name:result.name
+  }
+
+  return{
+    status:true,
+    message:'Success',
+    data:res
+  }
 }
 
-remove(id: number) {
-  return `This action removes a #${id} role`;
+async remove(deleterRoleDto : DeleteRoleDto) {
+  const query = await this.repoRole.delete({id:deleterRoleDto.id})
+  if(query.affected < 1){
+    throw new NotFoundException(`ID ${deleterRoleDto.id} Not Found`)
+  }
+
+  console.log(query);
+  
+  return{
+    status:true,
+    message:'Success',
+    data:null
+  }
 }
 }
