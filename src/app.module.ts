@@ -14,6 +14,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CustomerModule } from './customer/customer.module';
 import { APP_FILTER } from '@nestjs/core';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -36,7 +37,7 @@ import { APP_FILTER } from '@nestjs/core';
       inject:[ConfigService],
     }),
     
-    StaffModule, RoleModule, GcoModule, CommentModule, ProductModule, CompanyModule, FinanceModule, TransactionModule, UserModule, CustomerModule],
+    StaffModule, RoleModule, GcoModule, CommentModule, ProductModule, CompanyModule, FinanceModule, TransactionModule, UserModule, CustomerModule, AuthModule],
   controllers: [AppController],
   providers: [AppService,{provide:APP_FILTER,useClass:NotFoundException}]
 })

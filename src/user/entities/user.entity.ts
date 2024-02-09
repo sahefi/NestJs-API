@@ -47,7 +47,7 @@ export class UserEntity {
       @DeleteDateColumn({
         name:'deleted_at',
         type:'timestamptz',
-        default:()=>'now()',
+        default:null,
         nullable:true
       })
       deleted_at:Date

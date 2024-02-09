@@ -1,34 +1,75 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpStatus } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { GetUserDto } from './dto/get-user.dto';
+import { DeleteUserDto } from './dto/soft-delet-user-dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll(@Query() getUserDto:GetUserDto) {
+   try {
+    return await this.userService.findAll(getUserDto)
+   } catch (error) {
+    const status = error.status || HttpStatus.INTERNAL_SERVER_ERROR;
+      if(status === error.status){
+        return {
+          status: false,
+          message: error.message,
+          data: null,
+        };
+      }
+   }
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @Get('/detail')
+  async findOne(@Query('id') id: string) {
+    try {
+      return await this.userService.findOne(id);
+    } catch (error) {
+      const status = error.status || HttpStatus.INTERNAL_SERVER_ERROR;
+      if(status === error.status){
+        return {
+          status: false,
+          message: error.message,
+          data: null,
+        }
+      }
+    }
+    
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Patch()
+  async update(@Body() updateUserDto: UpdateUserDto) {
+    try {
+      return await this.userService.update(updateUserDto);
+    } catch (error) {
+      const status = error.status || HttpStatus.INTERNAL_SERVER_ERROR;
+      if(status === error.status){
+        return {
+          status: false,
+          message: error.message,
+          data: null,
+        }
+      }
+    }
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @Delete('')
+  async remove(@Query() deleteUserDto : DeleteUserDto) {
+    try {
+      return await this.userService.remove(deleteUserDto);
+    } catch (error) {
+      const status = error.status || HttpStatus.INTERNAL_SERVER_ERROR;
+      if(status === error.status){
+        return {
+          status: false,
+          message: error.message,
+          data: null,
+        }
+      }
+    }
   }
 }

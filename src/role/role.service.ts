@@ -138,7 +138,6 @@ async remove(deleterRoleDto : DeleteRoleDto) {
     throw new NotFoundException(`ID ${deleterRoleDto.id} Not Found`)
   }
 
-  console.log(query);
   
   return{
     status:true,

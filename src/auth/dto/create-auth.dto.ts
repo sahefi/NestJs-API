@@ -1,7 +1,6 @@
-import { IsNotEmpty, IsString, IsUUID } from "class-validator";
+import { IsNotEmpty, IsString, IsUUID } from "class-validator"
 
-
-export class CreateUserDto {
+export class CreateAuthDto {
     @IsNotEmpty({message:'Username Cannot Be Empty'})
     @IsString({message:'Username Must Be String'})
     username:string
@@ -11,7 +10,6 @@ export class CreateUserDto {
     password:string
 
     @IsNotEmpty({message:'Username Cannot Be Empty'})
-    @IsUUID('all',{message:'Role Must Be Valid UUID'})
+    @IsUUID('4',{message:'Role Must Be Valid UUID'})
     id_role:string
-
 }
