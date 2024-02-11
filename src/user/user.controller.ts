@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpStatus, UseGuards, UsePipes } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { GetUserDto } from './dto/get-user.dto';
 import { DeleteUserDto } from './dto/soft-delet-user-dto';
 
+
 @Controller('user')
+
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

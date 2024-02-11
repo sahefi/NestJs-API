@@ -1,6 +1,5 @@
-import { CustomerEntity } from "src/customer/entities/customer.entity";
+
 import { RoleEntity } from "src/role/entities/role.entity";
-import { StaffEntity } from "src/staff/entities/staff.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 
@@ -60,10 +59,4 @@ export class UserEntity {
       })
       @ManyToOne(()=>RoleEntity, (role)=>role.user)
       role: RoleEntity
-
-      @OneToMany(()=>StaffEntity,(staff)=>staff.user)
-      staff: StaffEntity[]
-
-      @OneToMany(()=>CustomerEntity,(customer)=>customer.user)
-      customer:CustomerEntity[]
     }   

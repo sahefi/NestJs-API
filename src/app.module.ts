@@ -1,18 +1,11 @@
 import { Module, NotFoundException } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { StaffModule } from './staff/staff.module';
 import { RoleModule } from './role/role.module';
-import { GcoModule } from './gco/gco.module';
-import { CommentModule } from './comment/comment.module';
-import { ProductModule } from './product/product.module';
-import { CompanyModule } from './company/company.module';
-import { FinanceModule } from './finance/finance.module';
-import { TransactionModule } from './transaction/transaction.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CustomerModule } from './customer/customer.module';
+
 import { APP_FILTER } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
 
@@ -37,7 +30,8 @@ import { AuthModule } from './auth/auth.module';
       inject:[ConfigService],
     }),
     
-    StaffModule, RoleModule, GcoModule, CommentModule, ProductModule, CompanyModule, FinanceModule, TransactionModule, UserModule, CustomerModule, AuthModule],
+    RoleModule,UserModule,AuthModule
+  ],
   controllers: [AppController],
   providers: [AppService,{provide:APP_FILTER,useClass:NotFoundException}]
 })

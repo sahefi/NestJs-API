@@ -1,3 +1,4 @@
+
 import { UserEntity } from "src/user/entities/user.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -62,5 +63,5 @@ export class StaffEntity {
     })
 
     @ManyToOne(()=>UserEntity,(user)=>user.staff)
-    user=UserEntity
+    user = UserEntity
 }

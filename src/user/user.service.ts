@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { RoleEntity } from 'src/role/entities/role.entity';
-import { GetRoleDto } from 'src/role/dto/get-role.dto';
+
 import { GetUserDto } from './dto/get-user.dto';
 import { DeleteUserDto } from './dto/soft-delet-user-dto';
 

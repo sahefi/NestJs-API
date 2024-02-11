@@ -2,7 +2,6 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { StaffEntity } from 'src/staff/entities/staff.entity';
 import { Repository } from 'typeorm';
 import { RoleEntity } from './entities/role.entity';
 import { ConfigService } from '@nestjs/config';

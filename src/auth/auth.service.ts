@@ -1,11 +1,12 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { LoginAuthDto } from './dto/login-auth.dto';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { RoleEntity } from 'src/role/entities/role.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +15,9 @@ export class AuthService {
     private readonly repoUser: Repository<UserEntity>,
 
     @InjectRepository(RoleEntity)
-    private readonly repoRole : Repository<RoleEntity>
+    private readonly repoRole : Repository<RoleEntity>,
+
+    private jwtService: JwtService
   ){}
 
   async create(createAuthDto: CreateAuthDto) {
@@ -60,19 +63,34 @@ export class AuthService {
     }
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  async login(loginAuthDto:LoginAuthDto) {
+    const user = await this.repoUser.findOne({
+      where:{
+        username:loginAuthDto.username
+      }
+    })
+
+    if(!user){
+      throw new NotFoundException('Invalid Credential')
+    }
+
+    const passwordMatch = await bcrypt.compare(loginAuthDto.password,user.password)
+    if(!passwordMatch){
+      throw new BadRequestException('Invalid Credential')
+    }
+
+    const payload = {id:user.id}
+    const token = await this.jwtService.signAsync(payload)
+    
+
+    return{
+      status:true,
+      message:'Success',
+      data:{
+        token:token
+      }
+    }
+
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
-  }
 }
