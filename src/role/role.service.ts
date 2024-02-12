@@ -25,7 +25,10 @@ async create(createRoleDto: CreateRoleDto) {
   return{
     status:true,
     message:'Succes',
-    data:query
+    data:{
+      id:query.id,
+      name:query.name
+    }
   }
   
 }
@@ -88,7 +91,10 @@ async findOne(detailRoleDto : DetailRoleDto) {
   return{
     status:true,
     message:"Success",
-    data:query
+    data:{
+      id:query.id,
+      name:query.name
+    }
   }
 }
 
