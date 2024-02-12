@@ -26,6 +26,10 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Pattern Project
+RESTful API:
+Disini saya menggunakan RESTful API karena menurut saya pemisahan antara sisi klien dan server menggunakan REST API memudahkan dalam pengembangan sehingga memungkinkan pengembangan klien dan server secara independen satu sama lain dan juga RESTful API meiliki pola yang mudah di pahami dengan hanya penggunaan POST,PATCH,PUT,GET,DELETE
+
 ## Installation
 
 ```bash
